@@ -9,7 +9,7 @@ import SwiftUI
 
 //MARK: - Wrapped-MainViews-With-UINavigationController
 //MARK: - Wrapped-TabBar
-struct MainTabBarView<Content: View>: UIViewControllerRepresentable {
+public struct MainTabBarView<Content: View>: UIViewControllerRepresentable {
     //MARK: - Properties
     private let mainTabsView: Content
     
@@ -19,7 +19,7 @@ struct MainTabBarView<Content: View>: UIViewControllerRepresentable {
     }
     
     //MARK: - Overrided-Functions
-    func makeUIViewController(context: Context) -> UINavigationController {
+    public func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
         let tabBarController = MainTabBarController(mainTabsView: mainTabsView.navigationController(navigationController))
         navigationController.viewControllers = [tabBarController]
@@ -27,13 +27,13 @@ struct MainTabBarView<Content: View>: UIViewControllerRepresentable {
         return navigationController
     }
     
-    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+    public func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
         // No update logic needed for now
     }
 }
 
 //MARK: - Wrapped-LoginScreen
-struct LoginNavigationView<Content: View>: UIViewControllerRepresentable {
+public struct LoginNavigationView<Content: View>: UIViewControllerRepresentable {
     //MARK: - Properties
     private let loginView: Content
     
@@ -43,7 +43,7 @@ struct LoginNavigationView<Content: View>: UIViewControllerRepresentable {
     }
     
     //MARK: - Overrided-Functions
-    func makeUIViewController(context: Context) -> UINavigationController {
+    public func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
         let loginViewController = UIHostingController(rootView: loginView.navigationController(navigationController))
         navigationController.viewControllers = [loginViewController]
@@ -51,7 +51,7 @@ struct LoginNavigationView<Content: View>: UIViewControllerRepresentable {
         return navigationController
     }
     
-    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+    public func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
         // No update logic needed for now
     }
 }

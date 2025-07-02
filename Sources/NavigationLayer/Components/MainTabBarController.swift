@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class MainTabBarController<Content: View>: UIViewController {
+public class MainTabBarController<Content: View>: UIViewController {
     // MARK: - Properties
     private let mainTabsView: Content
 
@@ -23,7 +23,7 @@ class MainTabBarController<Content: View>: UIViewController {
     }
 
     // MARK: - LifeCycle
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         let hostingController = UIHostingController(rootView: mainTabsView)
         addChild(hostingController)
