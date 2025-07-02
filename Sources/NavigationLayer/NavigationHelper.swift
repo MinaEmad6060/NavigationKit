@@ -21,8 +21,9 @@ public struct MainTabBarView<Content: View>: UIViewControllerRepresentable {
     //MARK: - Overrided-Functions
     public func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
-        let tabBarController = MainTabBarController(mainTabsView: mainTabsView.navigationController(navigationController))
-        navigationController.viewControllers = [tabBarController]
+//        let tabBarController = MainTabBarController(mainTabsView: mainTabsView.navigationController(navigationController))
+        let mainTabsViewController = UIHostingController(rootView: mainTabsView.navigationController(navigationController))
+        navigationController.viewControllers = [mainTabsViewController]
         navigationController.navigationBar.isHidden = true
         return navigationController
     }
