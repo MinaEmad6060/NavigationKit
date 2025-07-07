@@ -35,4 +35,16 @@ extension View {
         navigationController.popToRootViewController(animated: true)
     }
     
+    public func popToSpecificScreen<Content: View>(with navigationController: UINavigationController?, ofType type: Content.Type, animated: Bool = true) {
+        guard let navigationController = navigationController else {
+            return
+        }
+        for viewController in navigationController.viewControllers {
+            if let hosting = viewController as? UIHostingController<Content> {
+                navigationController.popToViewController(hosting, animated: animated)
+                return
+            }
+        }
+    }
+    
 }
