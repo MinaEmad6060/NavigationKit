@@ -8,46 +8,31 @@
 import UIKit
 import SwiftUI
 
-// MARK: - Navigation-Modifiers
-public struct PushModifier<Content: View>: ViewModifier {
-    @Environment(\.navigationController) private var navigationController
-    let view: Content
-    let animated: Bool
-
-    public func body(content: Self.Content) -> some View {
-        content.onAppear {
-            let viewController = UIHostingController(rootView: view)
-            navigationController.pushViewController(viewController, animated: animated)
-        }
-    }
-}
-
-public struct PresentModifier<Content: View>: ViewModifier {
-    @Environment(\.navigationController) private var navigationController
-    let view: Content
-    let animated: Bool
-    let completion: (() -> Void)?
-
-    public func body(content: Self.Content) -> some View {
-        content.onAppear {
-            let viewController = UIHostingController(rootView: view)
-            navigationController.present(viewController, animated: animated, completion: completion)
-        }
-    }
-}
-
-
-// MARK: - Extensions-View-Navigation
+// MARK: - Navigation-Using-UIkit
 extension View {
 
-    public func push<Content: View>(_ view: Content, animated: Bool = true) -> some View {
-        Color.clear
-            .modifier(PushModifier(view: view, animated: animated))
+    func push(with navigationController: UINavigationController?, animated: Bool = true) {
+        guard let navigationController else {
+            return
+        }
+        let hostingController = UIHostingController(rootView: self)
+        navigationController.pushViewController(hostingController, animated: animated)
     }
-
-    public func present<Content: View>(_ view: Content, animated: Bool = true, completion: (() -> Void)? = nil) -> some View {
-        Color.clear
-            .modifier(PresentModifier(view: view, animated: animated, completion: completion))
+     
+    func present(with navigationController: UINavigationController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen, animated: Bool = true) {
+        guard let navigationController else {
+            return
+        }
+        let hostingController = UIHostingController(rootView: self)
+        hostingController.modalPresentationStyle = modalPresentationStyle
+        navigationController.present(hostingController, animated: animated)
     }
-
+     
+    func popToRoot(with navigationController: UINavigationController?, animated: Bool = true) {
+        guard let navigationController else {
+            return
+        }
+        navigationController.popToRootViewController(animated: true)
+    }
+    
 }
