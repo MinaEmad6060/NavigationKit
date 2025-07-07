@@ -11,7 +11,7 @@ import SwiftUI
 // MARK: - Navigation-Using-UIkit
 extension View {
 
-    func push(with navigationController: UINavigationController?, animated: Bool = true) {
+    public func push(with navigationController: UINavigationController?, animated: Bool = true) {
         guard let navigationController else {
             return
         }
@@ -19,7 +19,7 @@ extension View {
         navigationController.pushViewController(hostingController, animated: animated)
     }
      
-    func present(with navigationController: UINavigationController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen, animated: Bool = true) {
+    public func present(with navigationController: UINavigationController?, modalPresentationStyle: UIModalPresentationStyle = .fullScreen, animated: Bool = true) {
         guard let navigationController else {
             return
         }
@@ -28,7 +28,7 @@ extension View {
         navigationController.present(hostingController, animated: animated)
     }
      
-    func popToRoot(with navigationController: UINavigationController?, animated: Bool = true) {
+    public func popToRoot(with navigationController: UINavigationController?, animated: Bool = true) {
         guard let navigationController else {
             return
         }
