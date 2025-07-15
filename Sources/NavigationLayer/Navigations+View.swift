@@ -152,13 +152,13 @@ public struct DirectNavigationPopToRootModifier: ViewModifier {
 
 // DirectNavigationDismissModifier removed - use SwiftUI's @Environment(\.dismiss) instead
 
-public struct DirectNavigationPopToSpecificScreenModifier<Content: View>: ViewModifier {
+public struct DirectNavigationPopToSpecificScreenModifier<Destination: View>: ViewModifier {
     @Environment(\.navigationController) private var navigationController
-    private let type: Content.Type
+    private let type: Destination.Type
     @Binding private var shouldPop: Bool
     private let animated: Bool
     
-    public init(type: Content.Type, shouldPop: Binding<Bool>, animated: Bool = true) {
+    public init(type: Destination.Type, shouldPop: Binding<Bool>, animated: Bool = true) {
         self.type = type
         self._shouldPop = shouldPop
         self.animated = animated
