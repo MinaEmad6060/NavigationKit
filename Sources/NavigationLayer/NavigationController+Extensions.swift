@@ -16,15 +16,21 @@ public extension UINavigationController {
     }
     
     /// Present a SwiftUI view wrapped in UIHostingController
-    func present<Content: View>(_ view: Content, presentationStyle: UIModalPresentationStyle, animated: Bool = true, completion: (() -> Void)? = nil) {
-        let hostingController = UIHostingController(rootView: view.navigationController(self))
+    func present<Content: View>(_ view: Content, presentationStyle: UIModalPresentationStyle, ignoresSafeArea: Bool = false, animated: Bool = true, completion: (() -> Void)? = nil) {
+        let finalView = ignoresSafeArea ?
+            AnyView(view.edgesIgnoringSafeArea(.all).navigationController(self)) :
+            AnyView(view.navigationController(self))
+        let hostingController = UIHostingController(rootView: finalView)
         hostingController.modalPresentationStyle = presentationStyle
         present(hostingController, animated: animated, completion: completion)
     }
     
     /// Present a SwiftUI view wrapped in UIHostingController with navigation
-    func presentWithNavigation<Content: View>(_ view: Content, presentationStyle: UIModalPresentationStyle, animated: Bool = true, completion: (() -> Void)? = nil) {
-        let hostingController = UIHostingController(rootView: view.navigationController(self))
+    func presentWithNavigation<Content: View>(_ view: Content, presentationStyle: UIModalPresentationStyle, ignoresSafeArea: Bool = false, animated: Bool = true, completion: (() -> Void)? = nil) {
+        let finalView = ignoresSafeArea ?
+            AnyView(view.edgesIgnoringSafeArea(.all).navigationController(self)) :
+            AnyView(view.navigationController(self))
+        let hostingController = UIHostingController(rootView: finalView)
         hostingController.modalPresentationStyle = presentationStyle
         let navigationController = UINavigationController(rootViewController: hostingController)
         present(navigationController, animated: animated, completion: completion)

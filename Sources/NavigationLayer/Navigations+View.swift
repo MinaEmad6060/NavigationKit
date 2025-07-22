@@ -13,8 +13,12 @@ public extension View {
         modifier(DirectNavigationPushModifier(isPresented: isPresented, animated: animated, destination: destination))
     }
     
-    func present<Destination: View>(isPresented: Binding<Bool>, presentationStyle: UIModalPresentationStyle, animated: Bool = true, @ViewBuilder destination: @escaping () -> Destination) -> some View {
-        modifier(DirectNavigationPresentModifier(isPresented: isPresented, presentationStyle: presentationStyle, animated: animated, destination: destination))
+    func present<Destination: View>(isPresented: Binding<Bool>, presentationStyle: UIModalPresentationStyle, ignoresSafeArea: Bool = false, animated: Bool = true, @ViewBuilder destination: @escaping () -> Destination) -> some View {
+        modifier(DirectNavigationPresentModifier(isPresented: isPresented, presentationStyle: presentationStyle, ignoresSafeArea: ignoresSafeArea, animated: animated, destination: destination))
+    }
+    
+    func presentWithNavigation<Destination: View>(isPresented: Binding<Bool>, presentationStyle: UIModalPresentationStyle, ignoresSafeArea: Bool = false, animated: Bool = true, @ViewBuilder destination: @escaping () -> Destination) -> some View {
+        modifier(DirectNavigationPresentWithNavigationModifier(isPresented: isPresented, presentationStyle: presentationStyle, ignoresSafeArea: ignoresSafeArea, animated: animated, destination: destination))
     }
     
     func pop(shouldPop: Binding<Bool>, animated: Bool = true) -> some View {
@@ -59,12 +63,14 @@ public struct DirectNavigationPresentModifier<Destination: View>: ViewModifier {
     @Binding private var isPresented: Bool
     private let destination: () -> Destination
     private let presentationStyle: UIModalPresentationStyle
+    private let ignoresSafeArea: Bool
     private let animated: Bool
     private let completion: (() -> Void)?
     
-    public init(isPresented: Binding<Bool>, presentationStyle: UIModalPresentationStyle, animated: Bool = true, destination: @escaping () -> Destination, completion: (() -> Void)? = nil) {
+    public init(isPresented: Binding<Bool>, presentationStyle: UIModalPresentationStyle, ignoresSafeArea: Bool = false, animated: Bool = true, destination: @escaping () -> Destination, completion: (() -> Void)? = nil) {
         self._isPresented = isPresented
         self.presentationStyle = presentationStyle
+        self.ignoresSafeArea = ignoresSafeArea
         self.animated = animated
         self.destination = destination
         self.completion = completion
@@ -74,7 +80,7 @@ public struct DirectNavigationPresentModifier<Destination: View>: ViewModifier {
         content
             .onChange(of: isPresented) { presented in
                 if presented {
-                    navigationController.present(destination(), presentationStyle: presentationStyle, animated: animated, completion: completion)
+                    navigationController.present(destination(), presentationStyle: presentationStyle, ignoresSafeArea: ignoresSafeArea, animated: animated, completion: completion)
                     isPresented = false
                 }
             }
@@ -86,12 +92,14 @@ public struct DirectNavigationPresentWithNavigationModifier<Destination: View>: 
     @Binding private var isPresented: Bool
     private let destination: () -> Destination
     private let presentationStyle: UIModalPresentationStyle
+    private let ignoresSafeArea: Bool
     private let animated: Bool
     private let completion: (() -> Void)?
     
-    public init(isPresented: Binding<Bool>, presentationStyle: UIModalPresentationStyle, animated: Bool = true, destination: @escaping () -> Destination, completion: (() -> Void)? = nil) {
+    public init(isPresented: Binding<Bool>, presentationStyle: UIModalPresentationStyle, ignoresSafeArea: Bool = false, animated: Bool = true, destination: @escaping () -> Destination, completion: (() -> Void)? = nil) {
         self._isPresented = isPresented
         self.presentationStyle = presentationStyle
+        self.ignoresSafeArea = ignoresSafeArea
         self.animated = animated
         self.destination = destination
         self.completion = completion
@@ -101,7 +109,7 @@ public struct DirectNavigationPresentWithNavigationModifier<Destination: View>: 
         content
             .onChange(of: isPresented) { presented in
                 if presented {
-                    navigationController.presentWithNavigation(destination(), presentationStyle: presentationStyle, animated: animated, completion: completion)
+                    navigationController.presentWithNavigation(destination(), presentationStyle: presentationStyle, ignoresSafeArea: ignoresSafeArea, animated: animated, completion: completion)
                     isPresented = false
                 }
             }
