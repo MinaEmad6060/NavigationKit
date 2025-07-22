@@ -9,13 +9,13 @@ let package = Package(
     products: [
         .library(
             name: "NavigationKit",
-            targets: ["NavigationLayer"]
+            targets: ["NavigationKit"]
         ),
     ],
     targets: [
         .target(
-            name: "NavigationLayer",
-            path: "Sources/NavigationLayer",
+            name: "NavigationKit",
+            path: "Sources/NavigationKit",
             exclude: [],
             sources: ["."],
             publicHeadersPath: nil
